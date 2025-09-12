@@ -17,3 +17,19 @@
     align-items: center;
     justify-content: center;
 }
+
+.heading {
+    text-align: center;
+    margin-top: 28px;
+}
+
+.placeDetails {
+
+}
+.freePlace {
+    border: 4px solid green;
+}
+.busyPlace {
+    border: 4px solid red;
+    pointer-events: none;
+}

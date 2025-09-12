@@ -1,6 +1,29 @@
 .timepicker {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    margin-top:20px;
+    margin-top: 20px;
     margin-bottom: 20px;
+}
+.typechooser {
+    margin-top: 20px;
+    display: flex;
+    column-gap: 16px;
+}
+.typechooser label {
+    margin-left: 4px;
+    cursor: pointer;
+}
+.flatpickr {
+    margin-top: 10px;
+}
+.flatpickr input {
+    border-radius: 4px;
+    background: #fff;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    color: black;
+    height: 24px;
+    padding-left: 4px;
 }

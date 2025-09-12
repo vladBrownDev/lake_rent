@@ -2,16 +2,23 @@ const express = require('express');
 const cors = require('cors');
 const rentsRoutes = require('./routes/rents');
 const placesRoutes = require('./routes/places');
+const paymentRoutes = require('./routes/payment');
 
 require('dotenv').config(); // load env variables
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true, // if you send cookies/auth headers
+  })
+);
 app.use(express.json());
 
 app.use('/api/rents', rentsRoutes);
 app.use('/api/places', placesRoutes);
+app.use('/api/payment', paymentRoutes);
 
 app.get('/', (req, res) => {
   res.send('Express backend is running 🚀');

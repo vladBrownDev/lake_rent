@@ -1,0 +1,9 @@
+.rentItemWrapper {
+    display: flex;
+    column-gap: 20px;
+    row-gap: 20px;
+    flex-wrap: wrap;
+    max-width: 1024px;
+    width: 100%;
+    margin: 20px auto;
+}
