@@ -1,0 +1,19 @@
+.wrapper {
+    max-width: 1024px;
+    width: 100%;
+    margin: 20px auto;
+}
+
+.actionSelector {
+    display: flex;
+}
+
+.actionSelector > div {
+    display: flex;
+    margin-left: 8px;
+}
+
+.actionSelector label {
+    margin-left: 4px;
+    line-height: 24px;
+}

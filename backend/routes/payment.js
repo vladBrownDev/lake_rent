@@ -14,7 +14,6 @@ router.get('/getPaymentInfo', auth, (req, res) => {
 			"version"  : "6",
 			"order_id" : req.query.orderId,
 		});
-		console.log(data);
 		res.json(data);
 	}
 

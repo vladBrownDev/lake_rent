@@ -3,7 +3,7 @@
     max-width: 1024px;
     aspect-ratio: 1 / 1;
     margin: 0 auto;
-    background-image: url("../../../../src/media/map.png");
+    background-image: url("../../../../public/map.png");
     background-size: cover;
     position: relative;
 }

@@ -4,8 +4,6 @@ const placesController = require('../controllers/placescontroller');
 const auth = require('../middleware/auth');
 
 router.get('/getPlaces', auth, placesController.getPlaces);
-router.post('/addRent', auth, async (req, res) => {
-	await rentsController.addRent(req.body);
-});
+router.post('/updatePlaces', auth, placesController.updatePlaces);
 
 module.exports = router;

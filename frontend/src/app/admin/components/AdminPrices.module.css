@@ -1,0 +1,39 @@
+.priceItem {
+    display: flex;
+    column-gap: 8px;
+}
+
+.pricesWrapper {
+    max-width: 1024px;
+    width: 100%;
+    margin: 20px auto;
+}
+
+.pricesWrapper > div {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+}
+
+.pricesWrapper h2 {
+    margin-bottom: 20px;
+}
+
+.pricesWrapper label {
+    width: 150px;
+}
+
+.pricesWrapper input {
+    width: 100px;
+}
+
+.priceHeading {
+    display: flex;
+    column-gap: 8px;
+    div {
+        width: 150px;
+    }
+    h4 {
+        width: 100px;
+    }
+}

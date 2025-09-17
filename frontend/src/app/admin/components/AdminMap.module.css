@@ -1,0 +1,43 @@
+
+.wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
+    aspect-ratio: 1 / 1;
+}
+
+.lakeImage {
+    object-fit: contain;
+    cursor: crosshair;
+    width: 100%;
+    max-width: 1024px;
+    user-select: none;
+    aspect-ratio: 1 / 1;
+}
+
+.marker {
+    position: absolute;
+    border-radius: 50%;
+    cursor: grab;
+    height: 40px;
+    border: 2px solid #ccc;
+    width: 40px;
+    user-select: none;
+    background-color:#fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.marker span {
+    position: absolute;
+    top: 42px;
+    color: white;
+    text-shadow: 1px 1px 4px #000;
+    font-size: 20px;
+    font-weight: 700;
+}

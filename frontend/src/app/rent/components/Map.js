@@ -1,29 +1,15 @@
 'use client'
 import styles from "./Map.module.css";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import {fetchPlacesDate} from "@/services/fetchPlacesDate";
 
 export default function Map({time, setRents, rents, isDayRent}) {
 	const [places, setPlaces] = useState([]);
 
 	useEffect(() => {
-		const fetchPlaces = async () => {
-			try {
-				const res = await axios.get(
-					"http://localhost:4000/api/places/getPlaces",
-					{
-						params: {
-							time,
-							isDayRent
-						}
-					}
-				);
-				setPlaces(res.data);
-			} catch (err) {
-				console.error("Error fetching places:", err);
-			}
-		};
-		fetchPlaces();
+		fetchPlacesDate(time, isDayRent).then(res => {
+			setPlaces(res.items);
+		})
 	}, [time, isDayRent]);
 
 	function selectPlace(e) {
