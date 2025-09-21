@@ -1,11 +1,11 @@
 import axios from "axios";
 
-export const updatePlacesDate = async (places, prices) => {
+export const updatePlacesData = async (places, prices) => {
 	try {
 		const placesData = {places, prices};
 
 		const response = await axios.post(
-			"http://localhost:4000/api/places/updatePlaces", // Adjust to your API endpoint
+			process.env.NEXT_PUBLIC_BACKEND_HOST + "/api/places/updatePlaces", // Adjust to your API endpoint
 			placesData,
 			{
 				headers: {

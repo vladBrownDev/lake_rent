@@ -1,7 +1,7 @@
 .additional {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 12px;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
 }
 
 .additional h4 {
@@ -40,3 +40,4 @@
 .additionalWrapper h4 {
     margin-top: 20px;
 }
+

@@ -8,13 +8,16 @@ import axios from "axios";
  * @param {boolean} isDayRent - Whether the rent is for the daytime.
  * @returns {Promise<object>} - Returns a promise with the fetched data.
  */
-export const fetchPlacesDate = async (time, isDayRent) => {
+export const fetchPlacesData = async (time, isDayRent) => {
 	try {
-		const res = await axios.get("http://localhost:4000/api/places/getPlaces", {
+		const res = await axios.get(process.env.NEXT_PUBLIC_BACKEND_HOST + "/api/places/getPlaces", {
 			params: {
 				time,
 				isDayRent
-			}
+			},
+			headers: new Headers({
+				"ngrok-skip-browser-warning": "69420",
+			})
 		});
 		return res.data; // Return the prices for the caller to handle
 	} catch (err) {

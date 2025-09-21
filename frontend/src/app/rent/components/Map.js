@@ -1,56 +1,101 @@
 'use client'
 import styles from "./Map.module.css";
 import { useEffect, useState } from "react";
-import {fetchPlacesDate} from "@/services/fetchPlacesDate";
+import { fetchPlacesData } from "@/services/fetchPlacesData";
 
-export default function Map({time, setRents, rents, isDayRent}) {
+export default function Map({ time, setRents, rents, isDayRent }) {
 	const [places, setPlaces] = useState([]);
+	const [notification, setNotification] = useState("");
+	const [mapSize, setMapSize] = useState(1)
 
 	useEffect(() => {
-		fetchPlacesDate(time, isDayRent).then(res => {
+		fetchPlacesData(time, isDayRent).then((res) => {
 			setPlaces(res.items);
-		})
+		});
+		setMapSize(window.innerWidth > 1024 ? 1024 : window.innerWidth);
 	}, [time, isDayRent]);
 
+	const halfItem = (20 / mapSize) * 100;
+
+	function getImage(type) {
+		if (type === "fishing") {
+			return "/fishing.png";
+		}
+		if (type.includes("big")) {
+			return "/bigaltanka.png";
+		}
+		return "/altanka.png";
+	}
+
 	function selectPlace(e) {
+		const [day, month, year] = time.split(".");
+
+		const timeStart = Math.floor(
+			new Date(year, month - 1, day, isDayRent ? 6 : 14).getTime() / 1000
+		);
+		const timeEnd = Math.floor(
+			new Date(
+				year,
+				month - 1,
+				isDayRent ? day : Number(day) + 1,
+				isDayRent ? 18 : 12
+			).getTime() / 1000
+		);
 
 		const newRent = {
 			id: e.target.dataset.id,
+			timestart: timeStart,
+			timeend: timeEnd,
 			date: time,
 			additional: [],
 			price: e.target.dataset.price,
 			originalPrice: e.target.dataset.price,
-			isDayRent
+			isDayRent,
+		};
+
+		const existingCopy = rents.find(
+			(el) =>
+				el.id === newRent.id &&
+				el.date === newRent.date &&
+				el.isDayRent === newRent.isDayRent
+		);
+
+		const newRents = existingCopy
+			? rents.filter((el) => JSON.stringify(el) !== JSON.stringify(existingCopy))
+			: [...rents, newRent];
+
+		setRents(newRents);
+		localStorage.setItem("cart", JSON.stringify({ items: newRents }));
+
+		if (!existingCopy) {
+			setNotification("Додано у кошик");
+			setTimeout(() => setNotification(""), 2500);
 		}
-
-		let newRents = [];
-
-		const existingCopy = rents.find((el) => {
-			return el.id === newRent.id && el.date === newRent.date && el.isDayRent === newRent.isDayRent
-		});
-
-		newRents = existingCopy ?
-			rents.filter((el) => JSON.stringify(el) !== JSON.stringify(existingCopy)) :
-			[...rents, ...[newRent]];
-
-		setRents(newRents)
-
-		localStorage.setItem('cart', JSON.stringify({items: newRents}));
 	}
 
 	return (
 		<>
-			<h2 className={styles.heading}>2.Оберіть місце</h2>
+			<h2 className={styles.heading}>Оберіть місце</h2>
+
+			{notification && <div className={styles.notification}>{notification}</div>}
+
 			<div className={styles.map}>
 				{places.map((place, ind) => (
 					<div
 						onClick={selectPlace}
-						style={{top:place.y + '%', left:place.x + '%'}}
+						style={{
+							top: place.y - halfItem + "%",
+							left: place.x - halfItem + "%",
+							backgroundImage: `url(${getImage(place.type)})`,
+						}}
 						data-id={place.id}
 						data-price={isDayRent ? place.dayprice : place.twfprice}
-						className={`${styles.place} ${place.free ? styles.freePlace : styles.busyPlace}`}
-						key={'place' + ind}>
-							{place.id}
+						className={`${styles.place} ${
+							place.free ? styles.freePlace : styles.busyPlace
+						}`}
+						key={"place" + ind}
+					>
+						<span>{place.id}</span>
 					</div>
 				))}
 			</div>

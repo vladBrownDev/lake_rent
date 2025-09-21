@@ -1,0 +1,195 @@
+.container {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Hero Section */
+.hero {
+    background: url('/images/hero-lake.jpg') center/cover no-repeat;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    position: relative;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.heroContent {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.heroContent p {
+    max-width: 600px;
+}
+
+.heroContent * {
+    text-align: left;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    line-height: 3.75rem;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+}
+
+.ctaBtn {
+    background: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.ctaBtn:hover {
+    background: #388e3c;
+}
+
+/* Info Section */
+.info {
+    padding: 60px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.info p {
+    text-align: left;
+    margin: 12px 0;
+}
+
+    /* Features */
+.features {
+    background: #f5f8fa;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.featureGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.featureCard {
+    background: #fff;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s;
+}
+
+.featureCard:hover {
+    transform: translateY(-5px);
+}
+
+/* Gallery */
+.gallery {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.galleryGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.galleryGrid img {
+    width: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+/* Booking */
+.booking {
+    background: #eef6f0;
+    padding: 60px 20px;
+    text-align: center;
+}
+.booking p {
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+/* Contacts */
+.contacts {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.map {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 600px;
+    height: 300px;
+    border: 0;
+    border-radius: 12px;
+}
+
+/* FAQ Section */
+.faq {
+    padding: 80px 20px;
+    background: #f9f9f9;
+    text-align: center;
+}
+
+.faq h2 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+    color: #2c3e50;
+}
+
+.faqItem {
+    max-width: 800px;
+    margin: 0 auto 25px auto;
+    text-align: left;
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.faqItem:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.faqItem h3 {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+    color: #34495e;
+}
+
+.faqItem p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+}
+

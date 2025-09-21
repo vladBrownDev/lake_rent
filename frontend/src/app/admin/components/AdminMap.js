@@ -3,7 +3,7 @@
 import {useEffect, useState} from "react";
 import Image from "next/image";
 import styles from "./AdminMap.module.css";
-import {fetchPlacesDate} from "@/services/fetchPlacesDate";
+import {fetchPlacesData} from "@/services/fetchPlacesData";
 import axios from "axios";
 
 export default function AdminMap({action, type, items, setItems}) {
@@ -11,7 +11,7 @@ export default function AdminMap({action, type, items, setItems}) {
 	const [windowSize, setWindowSize] = useState(1)
 
 	useEffect(() => {
-		fetchPlacesDate('02.02.1970', false).then(res => {
+		fetchPlacesData('02.02.1970', false).then(res => {
 			setItems(res.items);
 		})
 		setWindowSize(window.innerWidth > 1024 ? 1024 : window.innerWidth);

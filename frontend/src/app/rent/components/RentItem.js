@@ -3,7 +3,7 @@ import styles from "./RentItem.module.css";
 export default function RentItem({setRents, rents, rent}) {
 	function handleAddition(e) {
 		const updatedRents = rents.map(item => {
-			if (item.id !== rent.id) return item;
+			if (item.id !== rent.id || item.isDayRent !== rent.isDayRent || item.date !== rent.date) return item;
 
 			if(e.target.checked) {
 				item.additional.push({name: e.target.dataset.field, price: e.target.dataset.price});
@@ -22,7 +22,7 @@ export default function RentItem({setRents, rents, rent}) {
 		{
 			price: 100,
 			field: "addition_drova",
-			title: 'Дрова(+100грн)'
+			title: `Дрова`
 		}
 	];
 
@@ -38,7 +38,7 @@ export default function RentItem({setRents, rents, rent}) {
 			<div className={styles.additionalWrapper}>
 				<div>
 					<h4>Доп послуги</h4>
-					{additions.map(item => (
+					{additions.map((item) => (
 						<div key={`${rent.id}_${item.field}`}>
 							<input
 								data-price={item.price}
@@ -46,9 +46,11 @@ export default function RentItem({setRents, rents, rent}) {
 								checked={rent.additional.some(additem => additem.name === item.field)}
 								onChange={handleAddition}
 								type="checkbox"
-								id={'addition_drova' + rent.id}
+								id={'addition_drova' + rent.id + rent.date + rent.isDayRent}
 							/>
-							<label htmlFor={"addition_drova" + rent.id}>{item.title}</label>
+							<label htmlFor={'addition_drova' + rent.id + rent.date + rent.isDayRent}>
+								{item.title + `(+${item.price}₴)`}
+							</label>
 						</div>
 					))}
 				</div>

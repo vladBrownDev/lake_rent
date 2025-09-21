@@ -35,7 +35,7 @@ export default function Rent() {
 	}, [rents])
 
 	return (
-		<div id={'rentWrapper'} className={styles.page}>
+		<div id={'rentWrapper'} className={styles.rentWrapper}>
 			<TimePicker setTime={setTime} isDayRent={isDayRent} setIsDayRent={setIsDayRent}/>
 			<Map setRents={setRents} isDayRent={isDayRent} rents={rents} time={time}/>
 			<div className={styles.rentItemWrapper}>
@@ -43,7 +43,7 @@ export default function Rent() {
 					<RentItem key={`${rent.id}_${rent.date}_${rent.isDayRent}`} rent={rent} rents={rents} setRents={setRents}/>
 				))}
 			</div>
-			<Payform rents={rents}/>
+			<Payform setRents={setRents} rents={rents}/>
 		</div>
 	);
 }

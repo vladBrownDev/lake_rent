@@ -14,6 +14,8 @@ app.use(
     credentials: true, // if you send cookies/auth headers
   })
 );
+
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use('/api/rents', rentsRoutes);

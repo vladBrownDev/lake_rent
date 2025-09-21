@@ -3,12 +3,12 @@
 import axios from "axios";
 import {useEffect, useState} from "react";
 import styles from "./AdminPrices.module.css";
-import {fetchPlacesDate} from "@/services/fetchPlacesDate";
+import {fetchPlacesData} from "@/services/fetchPlacesData";
 
 export default function AdminPrices({prices, setPrices}) {
 
 	useEffect(() => {
-		fetchPlacesDate('02.02.1970', false).then(res => {
+		fetchPlacesData('02.02.1970', false).then(res => {
 			setPrices(res.prices);
 		});
 	}, []);

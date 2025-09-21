@@ -7,12 +7,15 @@
     background-size: cover;
     position: relative;
 }
+.map h2 {
+    font-size: 2rem;
+}
 .map .place {
     position: absolute;
     height: 40px;
     width: 40px;
     border-radius: 50%;
-    background:#fff;
+    background-color:#fff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -21,6 +24,42 @@
 .heading {
     text-align: center;
     margin-top: 28px;
+    font-size: 2rem;
+}
+
+/* Notification */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #4caf50;
+    color: #fff;
+    padding: 14px 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    font-size: 1rem;
+    font-weight: 500;
+    z-index: 1000;
+    animation: fadeInOut 2.5s ease forwards;
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    90% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
 }
 
 .placeDetails {
@@ -28,8 +67,45 @@
 }
 .freePlace {
     border: 4px solid green;
+    cursor: pointer;
 }
 .busyPlace {
     border: 4px solid red;
     pointer-events: none;
+}
+
+/* Map Section */
+.map {
+    position: relative;
+    border-radius: 16px;
+    min-height: 400px;
+    margin: 0 auto 40px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.place {
+    position: absolute;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.place span {
+    position: absolute;
+    top: 42px;
+    color: white;
+    text-shadow: 1px 1px 4px #000;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.busyPlace {
+    background: #f44336;
+    cursor: not-allowed;
 }

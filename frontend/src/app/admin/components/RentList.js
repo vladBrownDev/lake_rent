@@ -1,4 +1,4 @@
-import 'react-tabulator/lib/css/bootstrap/tabulator_bootstrap4.css';
+import 'react-tabulator/lib/css/tabulator_simple.css';
 import { useEffect, useState } from "react";
 import { ReactTabulator } from 'react-tabulator';
 import styles from "./RentList.module.css";
@@ -10,7 +10,13 @@ export default function RentList() {
 	useEffect(() => {
 		const fetchRents = async () => {
 			try {
-				const res = await axios.get("http://localhost:4000/api/rents/getRents");
+				const res = await axios.get(process.env.NEXT_PUBLIC_BACKEND_HOST + "/api/rents/getRents",
+					{
+						headers: new Headers({
+							"ngrok-skip-browser-warning": "69420",
+						})
+					}
+				);
 				return res.data;
 			} catch (err) {
 				throw err;
@@ -48,6 +54,21 @@ export default function RentList() {
 			sorter: "number",
 			formatter: formatDate,
 		},
+		{
+			title: "Сплачено",
+			field: 'price',
+			sorter: "number",
+			formatter: (el) => `${el.getValue()}₴`,
+		},
+		{
+			title: "Додаткове",
+			field: 'additional',
+			formatter: (el) => {
+				const array = JSON.parse(el.getValue());
+				if(!array) return '';
+				return array.reduce((acc, item) => acc + (item.title ?? '') + ' ','');
+			},
+		}
 	];
 
 	return (

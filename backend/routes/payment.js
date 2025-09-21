@@ -1,23 +1,144 @@
 const LiqPay = require('../middleware/liqpay.js');
 const auth = require("../middleware/auth");
+const crypto = require('crypto');
 const express = require("express");
+const db = require('../db');
 require('dotenv').config(); // load env variables
 const router = express.Router();
 
+const private_key = process.env.LIQPAY_PRIVATEKEY;
+const public_key = process.env.LIQPAY_PUBKEY;
+
+let orderItems = {};
+
 router.get('/getPaymentInfo', auth, (req, res) => {
-	const private_key = process.env.LIQPAY_PRIVATEKEY;
-	const liqpay = new LiqPay(process.env.LIQPAY_PUBKEY, private_key);
+	const liqpay = new LiqPay(public_key, private_key);
+	const orderId = req.query.orderId;
 
 	const getPaymentInfo = async () => {
 		const data = await liqpay.api("request", {
 			"action"   : "status",
 			"version"  : "6",
-			"order_id" : req.query.orderId,
+			"order_id" : orderId,
 		});
+
 		res.json(data);
+
 	}
 
 	getPaymentInfo();
+});
+
+router.put('/liqpay-callback', async (req, res) => {
+	res.status(200).send('ok')
+})
+
+router.post('/liqpay-callback', async (req, res) => {
+	const { data, signature, name, phone } = req.body;
+	const private_key = process.env.LIQPAY_PRIVATEKEY;
+
+	if (!data || !signature) {
+		res.status(400).send('Missing data or signature');
+	}
+
+	// Validate signature
+	const expectedSignature = crypto
+		.createHash("sha1")
+		.update(private_key + data + private_key)
+		.digest("base64");
+
+	if (signature !== expectedSignature) {
+		res.status(403).send("Forbidden");
+	}
+
+	// Decode payment info
+	let decoded;
+	try {
+		decoded = JSON.parse(Buffer.from(data, "base64").toString("utf8"));
+	} catch (e) {
+		res.status(400).send("Invalid data format");
+	}
+
+	const orderId = decoded.order_id;
+	const rentItems = orderItems[orderId];
+
+	res.status(200).send("OK");
+
+	if(decoded.status === "success") {
+		try {
+			const [existingOrder] = await db.query(
+				'SELECT * FROM lake_rents WHERE orderid = ?',
+				[orderId]
+			);
+
+			if (!existingOrder.length) {
+
+				rentItems.forEach(async (item) => {
+					const message = `
+📢 Нова бронь!
+🎣 Місце: ${item.id}
+👤 Ім'я: ${item.name || name}
+📞 Телефон: ${item.phone || phone}
+📅 Дата: ${item.date}
+⏰ Час: ${new Date(item.timestart * 1000).toLocaleString()} - ${new Date(item.timeend * 1000).toLocaleString()}
+💵 Ціна: ${item.price} грн
+🆔 OrderID: ${orderId}
+			`;
+
+					const res = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({
+							chat_id: +process.env.TELEGRAM_CHAT_ID,
+							text: message,
+						})
+					});
+					console.log(res, process.env.TELEGRAM_BOT_TOKEN, process.env.TELEGRAM_CHAT_ID);
+					await db.query(
+						'INSERT INTO lake_rents (timestart, timeend, placeid, name, phone, additional, orderid, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+						[
+							item.timestart,
+							item.timeend,
+							item.id,
+							item.name,
+							item.phone,
+							JSON.stringify(item.additional) || null,
+							orderId,
+							item.price
+						]
+					)
+				})
+			}
+		} catch (error) {
+			console.error('Database error:', error);
+		}
+	}
+});
+
+router.post("/create", (req, res) => {
+	const { amount, orderId, description, result_url, server_url, items } = req.body;
+
+	const payload = {
+		public_key: process.env.LIQPAY_PUBKEY,
+		version: 3,
+		action: "pay",
+		amount,
+		currency: "UAH",
+		description,
+		order_id: orderId,
+		result_url,
+		server_url,
+	};
+
+	const data = Buffer.from(JSON.stringify(payload)).toString("base64");
+	const signature = crypto
+		.createHash("sha1")
+		.update(process.env.LIQPAY_PRIVATEKEY + data + process.env.LIQPAY_PRIVATEKEY)
+		.digest("base64");
+
+	orderItems[orderId] = items;
+
+	res.json({ data, signature });
 });
 
 module.exports = router;

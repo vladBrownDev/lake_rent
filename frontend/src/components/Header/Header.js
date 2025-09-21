@@ -1,14 +1,17 @@
 import styles from "./Header.module.css";
+import Link from "next/link";
 
 export default function Home() {
 	return (
 		<header className={styles.header}>
-			<img  alt=""/>
+			<Link href={'/'}>
+				<img alt="Logo" src="/logo.png"/>
+			</Link>
 			<nav>
-				<a href="">aaaaa</a>
-				<a href="">bbbbb</a>
-				<a href="">ddddd</a>
-				<a href="">wwwww</a>
+				<a href="/#aboutus">Про нас</a>
+				<a href="/#gallery">Галерея</a>
+				<a href="/#booking">Бронювання</a>
+				<a href="/#contacts">Контакти</a>
 			</nav>
 		</header>
 	);
