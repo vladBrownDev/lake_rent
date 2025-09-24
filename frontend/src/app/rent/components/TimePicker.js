@@ -34,7 +34,7 @@ export default function TimePicker({ setTime, isDayRent, setIsDayRent }) {
 
 			<div className={styles.flatpickr}>
 				<label htmlFor="date">Дата:</label>
-				<input id="date" ref={picker} />
+				<input id="date" type={'text'} ref={picker} />
 			</div>
 
 			<div className={styles.typechooser}>
