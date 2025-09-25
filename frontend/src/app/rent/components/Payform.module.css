@@ -22,7 +22,7 @@
 }
 
 /* Submit Button */
-.paymentForm button {
+.paymentForm .payButton {
     width: 100%;
     background: #4caf50;
     color: #fff;
@@ -34,11 +34,47 @@
     transition: background 0.3s;
 }
 
-.paymentForm button[disabled] {
+.paymentForm .payButton[disabled] {
     pointer-events: none;
     opacity: 0.7;
 }
 
-.paymentForm button:hover {
+.paymentForm .payButton:hover {
     background: #388e3c;
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #4caf50;
+    color: #fff;
+    padding: 14px 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    font-size: 1rem;
+    font-weight: 500;
+    z-index: 1000;
+    animation: fadeInOut 2.5s ease forwards;
+}
+
+.payTypeWrapper {
+    justify-content: center;
+    height: 26px;
+    display: flex;
+    width: fit-content;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    margin: 0 auto 20px auto;
+}
+.payTypeSwitch[data-selected="true"] {
+    background: #4caf50;
+    color: #fff;
+}
+.payTypeSwitch {
+    cursor: pointer;
+    background: #fff;
+    border: 0px;
+    padding: 0 14px;
 }

@@ -78,7 +78,6 @@
 .map {
     position: relative;
     border-radius: 16px;
-    min-height: 400px;
     margin: 0 auto 40px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }

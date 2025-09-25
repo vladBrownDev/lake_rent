@@ -72,6 +72,23 @@ router.post('/liqpay-callback', async (req, res) => {
 			);
 
 			if (!existingOrder.length) {
+				const item = rentItems[0];
+				const price = rentItems.reduce((acc, curr) => acc + +curr.price, 0);
+				await db.query(
+					'INSERT INTO lake_rents (timestart, timeend, placeid, name, phone, additional, orderid, price, paidamount, main) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+					[
+						null,
+						null,
+						null,
+						item.name,
+						item.phone,
+						JSON.stringify(item.additional) || null,
+						orderId,
+						price,
+						item.paidamount,
+						1
+					]
+				)
 
 				rentItems.forEach(async (item) => {
 					const message = `
@@ -82,6 +99,7 @@ router.post('/liqpay-callback', async (req, res) => {
 📅 Дата: ${item.date}
 ⏰ Час: ${new Date(item.timestart * 1000).toLocaleString()} - ${new Date(item.timeend * 1000).toLocaleString()}
 💵 Ціна: ${item.price} грн
+💵 Сплачено: ${item.paidamount} грн
 🆔 OrderID: ${orderId}
 			`;
 
@@ -93,9 +111,9 @@ router.post('/liqpay-callback', async (req, res) => {
 							text: message,
 						})
 					});
-					console.log(res, process.env.TELEGRAM_BOT_TOKEN, process.env.TELEGRAM_CHAT_ID);
+
 					await db.query(
-						'INSERT INTO lake_rents (timestart, timeend, placeid, name, phone, additional, orderid, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+						'INSERT INTO lake_rents (timestart, timeend, placeid, name, phone, additional, orderid, price, paidamount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
 						[
 							item.timestart,
 							item.timeend,
@@ -104,7 +122,8 @@ router.post('/liqpay-callback', async (req, res) => {
 							item.phone,
 							JSON.stringify(item.additional) || null,
 							orderId,
-							item.price
+							item.price,
+							item.paidamount
 						]
 					)
 				})
@@ -139,6 +158,78 @@ router.post("/create", (req, res) => {
 	orderItems[orderId] = items;
 
 	res.json({ data, signature });
+});
+
+router.post("/unpaidRent",  async(req, res) => {
+	const {rentItems, orderId} = req.body;
+
+	try {
+		const [existingOrder] = await db.query(
+			'SELECT * FROM lake_rents WHERE orderid = ?',
+			[orderId]
+		);
+
+		if (!existingOrder.length) {
+			const item = rentItems[0];
+			const price = rentItems.reduce((acc, curr) => acc + +curr.price, 0);
+			await db.query(
+				'INSERT INTO lake_rents (timestart, timeend, placeid, name, phone, additional, orderid, price, paidamount, main) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+				[
+					null,
+					null,
+					null,
+					item.name,
+					item.phone,
+					JSON.stringify(item.additional) || null,
+					orderId,
+					price,
+					item.paidamount,
+					1
+				]
+			)
+
+			rentItems.forEach(async (item) => {
+				const message = `
+📢 Нова бронь!
+🎣 Місце: ${item.id}
+👤 Ім'я: ${item.name || name}
+📞 Телефон: ${item.phone || phone}
+📅 Дата: ${item.date}
+⏰ Час: ${new Date(item.timestart * 1000).toLocaleString()} - ${new Date(item.timeend * 1000).toLocaleString()}
+💵 Ціна: ${item.price} грн
+💵 Сплачено: ${item.paidamount} грн
+🆔 OrderID: ${orderId}
+			`;
+
+				const res = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						chat_id: +process.env.TELEGRAM_CHAT_ID,
+						text: message,
+					})
+				});
+
+				await db.query(
+					'INSERT INTO lake_rents (timestart, timeend, placeid, name, phone, additional, orderid, price, paidamount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+					[
+						item.timestart,
+						item.timeend,
+						item.id,
+						item.name,
+						item.phone,
+						JSON.stringify(item.additional) || null,
+						orderId,
+						item.price,
+						item.paidamount
+					]
+				)
+			})
+		}
+		res.json({status: 200})
+	} catch (error) {
+		console.error('Database error:', error);
+	}
 });
 
 module.exports = router;

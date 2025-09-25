@@ -2,7 +2,19 @@ const db = require('../db');
 
 exports.getRents = async (req, res) => {
 	const [rows] = await db.query('SELECT * FROM lake_rents');
-	res.json(rows);
+	const formattedRows = [];
+	rows.forEach((row) => {
+		if(row.main === 1) {
+			let children = rows.filter((el) => el.main !== 1 && el.orderId === row.orderId);
+			children = children.map(el => {
+				el.paidamount = ''
+				return el;
+			})
+			row._children = children;
+			formattedRows.push(row);
+		}
+	})
+	res.json(formattedRows);
 	return rows;
 };
 

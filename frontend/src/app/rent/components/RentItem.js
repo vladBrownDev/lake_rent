@@ -59,7 +59,7 @@ export default function RentItem({setRents, rents, rent}) {
 				Дата: {rent.date}, час: {rent.isDayRent ? '6:00-18:00' : '14:00-12:00 наступного дня'}
 			</div>
 			<div>
-				Ціна: {rent.price}
+				Ціна: {rent.price}₴
 			</div>
 		</div>
 	);

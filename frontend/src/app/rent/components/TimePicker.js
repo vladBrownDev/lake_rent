@@ -16,6 +16,7 @@ export default function TimePicker({ setTime, isDayRent, setIsDayRent }) {
 		flatpickr(picker.current, {
 			dateFormat: "d.m.Y",
 			defaultDate: tomorrow,
+			minDate: "today",
 			locale: Ukrainian,
 			onChange: (selectedDates, dateStr) => {
 				setTime(dateStr);
