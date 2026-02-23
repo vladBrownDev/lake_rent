@@ -8,10 +8,11 @@ export default function Home() {
 				<img alt="Logo" src="/logo.png"/>
 			</Link>
 			<nav>
-				<a href="/#aboutus">Про нас</a>
-				<a href="/#gallery">Галерея</a>
-				<a href="/#booking">Бронювання</a>
-				<a href="/#contacts">Контакти</a>
+				<Link href="/#aboutus">Про нас</Link>
+				<Link href="/#gallery">Галерея</Link>
+				<Link href="/#booking">Бронювання</Link>
+				<Link href="/terms">Умови</Link>
+				<Link href="/#contacts">Контакти</Link>
 			</nav>
 		</header>
 	);
