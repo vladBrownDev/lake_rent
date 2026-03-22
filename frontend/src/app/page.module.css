@@ -209,14 +209,81 @@
     text-align: center;
 }
 .booking p {
-    max-width: 400px;
+    max-width: 600px;
     margin: 20px auto;
+}
+.priceImageWrapper {
+    margin: 40px auto;
+    max-width: 550px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.priceImage {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    object-fit: contain;
 }
 
 /* Contacts */
 .contacts {
     padding: 60px 20px;
     text-align: center;
+}
+
+.socialMedia {
+    margin: 40px 0;
+}
+
+.socialMedia h3 {
+    margin-bottom: 24px;
+    color: #2c3e50;
+    font-size: 1.5rem;
+}
+
+.socialIcons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.socialLink {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    width: 72px;
+    color: #34495e;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.socialLink:hover {
+    color: #4caf50;
+    transform: translateY(-4px);
+}
+
+.socialIconImage {
+    object-fit: contain;
+    background-color: #fff;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    transition: background-color .3s, box-shadow .3s, transform .3s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+}
+
+.socialLink:hover .socialIconImage {
+    background-color: #eef6f0;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.socialLink span {
+    font-size: 0.95rem;
+    font-weight: 600;
 }
 
 .map {

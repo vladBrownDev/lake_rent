@@ -132,12 +132,21 @@ export default function Home() {
 
         {/* Pricing/Booking Section */}
         <section id={"booking"} className={styles.booking}>
-          <h2>Бронювання</h2>
+          <h2>Бронювання та ціни</h2>
           <p>
             Ми пропонуємо гнучкі варіанти оренди: денна рибалка (6:00–18:00) або
             добова (14:00–12:00 наступного дня). Додатково можна замовити послуги
             – дрова, альтанку чи будинок на колесах.
           </p>
+          <div className={styles.priceImageWrapper}>
+            <Image
+              src="/price.PNG"
+              alt="Ціни на риболовлю"
+              width={800}
+              height={800}
+              className={styles.priceImage}
+            />
+          </div>
           <p>
             Забронюйте своє місце вже зараз та насолоджуйтесь чудовим відпочинком
             на озері!
@@ -165,6 +174,27 @@ export default function Home() {
           <p>
             📧 <b>Електронна пошта:</b> ozeroberdykhiv@gmail.com
           </p>
+          <div className={styles.socialMedia}>
+            <h3>Ми в соцмережах:</h3>
+            <div className={styles.socialIcons}>
+              <a href="https://www.instagram.com/ozero_berdykhiv?igsh=MWxwOHc3ZHBrMGFqMA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
+                <Image src="/instagram.png" alt="Instagram" width={40} height={40} className={styles.socialIconImage} />
+                <span>Instagram</span>
+              </a>
+              <a href="https://t.me/ozeroberdykhiv" target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
+                <Image src="/telegram.png" alt="Telegram" width={40} height={40} className={styles.socialIconImage} />
+                <span>Telegram</span>
+              </a>
+              <a href="https://www.tiktok.com/@ozero_berdykhiv" target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
+                <Image src="/tiktok.png" alt="TikTok" width={40} height={40} className={styles.socialIconImage} />
+                <span>TikTok</span>
+              </a>
+              <a href="https://www.facebook.com/share/g/1AhRXU3zTf/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
+                <Image src="/facebook.png" alt="Facebook" width={40} height={40} className={styles.socialIconImage} />
+                <span>Facebook</span>
+              </a>
+            </div>
+          </div>
           <iframe
             className={styles.map}
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d322688.3628504514!2d23.611012741078703!3d49.90307922832799!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473b17732b65c62d%3A0x8ff07bdb5692510!2sOzero%20Berdykhiv!5e0!3m2!1sru!2sua!4v1758363506983!5m2!1sru!2sua"
