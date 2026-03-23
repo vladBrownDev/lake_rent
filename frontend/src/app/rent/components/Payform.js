@@ -54,7 +54,12 @@ export default function Payform({ rents, setRents }) {
 					description:
 						"Оплата за оренду, місця: " +
 						cartItems
-							.map((item) => `Місце ${item.id} ціна ${item.price}.`)
+							.map(
+								(item) =>
+									`Місце ${item.id}, ${item.date}, ${
+										item.isDayRent ? "6:00-18:00" : "14:00-12:00 наст. дня"
+									} ціна ${item.price}.`
+							)
 							.join(" "),
 					result_url: origin + "/payresult?orderId=" + orderId,
 					server_url:
