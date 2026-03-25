@@ -44,7 +44,7 @@ export default function RentWrapper() {
 						<RentItem key={`${rent.id}_${rent.date}_${rent.isDayRent}`} rent={rent} rents={rents} setRents={setRents}/>
 					))}
 				</div>
-				<div className={styles.smallNotion}>Ціна за рибу сплачується по факту спійманної риби, хижак - 100грн, амур/короп - 150грн</div>
+				<img src="/price.PNG" alt="Ціни на рибу" className={styles.priceImage} />
 				<Payform setRents={setRents} rents={rents}/>
 			</div>
 		</>

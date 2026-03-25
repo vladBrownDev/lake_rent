@@ -19,3 +19,11 @@
     text-align: center;
     font-size: 12px;
 }
+
+.priceImage {
+    display: block;
+    margin: 20px auto;
+    max-width: 550px;
+    height: auto;
+    border-radius: 8px;
+}
