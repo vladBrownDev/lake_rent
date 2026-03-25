@@ -7,6 +7,7 @@ import Map from "@/app/rent/components/Map";
 import TimePicker from "@/app/rent/components/TimePicker";
 import Payform from "@/app/rent/components/Payform";
 import RentItem from "@/app/rent/components/RentItem";
+import Image from "next/image";
 
 function getTomorrowDate() {
 	const today = new Date();
@@ -44,8 +45,8 @@ export default function RentWrapper() {
 						<RentItem key={`${rent.id}_${rent.date}_${rent.isDayRent}`} rent={rent} rents={rents} setRents={setRents}/>
 					))}
 				</div>
-				<img src="/price.PNG" alt="Ціни на рибу" className={styles.priceImage} />
 				<Payform setRents={setRents} rents={rents}/>
+				<Image src="/price.PNG" alt="Ціни на рибу" width={1000} height={400} className={styles.priceImage} />
 			</div>
 		</>
 	);
