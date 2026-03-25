@@ -16,9 +16,9 @@ export default function PayresultWrapper() {
 		axios
 			.get(url, {
 				params: { orderId } ,
-				headers: new Headers({
+				headers: {
 					"ngrok-skip-browser-warning": "69420",
-				})
+				}
 			})
 			.then((response) => setStatus(response.data.status))
 			.catch(() => setStatus("failed"));
