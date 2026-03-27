@@ -12,7 +12,9 @@ export default function Map({ time, setRents, rents, isDayRent }) {
 		fetchPlacesData(time, isDayRent).then((res) => {
 			setPlaces(res.items);
 		}).catch((err) => {
-			alert("Error fetching places: " + err.message);
+			const errorDetails = JSON.stringify(err, Object.getOwnPropertyNames(err), 2);
+			const responseData = err.response ? `\nResponse Data: ${JSON.stringify(err.response.data, null, 2)}` : '';
+			alert(`Error fetching places: ${err.message}\n\nDetails:\n${errorDetails}${responseData}`);
 		});
 		setMapSize(window.innerWidth > 1024 ? 1024 : window.innerWidth);
 	}, [time, isDayRent]);
