@@ -26,13 +26,21 @@ export default function RentWrapper() {
 	const [isDayRent, setIsDayRent] = useState(true);
 
 	useEffect( () => {
-		const cartsStorage = localStorage.getItem('cart');
-		const rents = cartsStorage ? JSON.parse(cartsStorage).items : [];
-		setRents(rents);
+		try {
+			const cartsStorage = localStorage.getItem('cart');
+			const rents = cartsStorage ? JSON.parse(cartsStorage).items : [];
+			setRents(rents);
+		} catch (e) {
+			console.error("Failed to read from localStorage:", e);
+		}
 	}, []);
 
 	useEffect(() => {
-		localStorage.setItem('cart', JSON.stringify({items: rents}));
+		try {
+			localStorage.setItem('cart', JSON.stringify({items: rents}));
+		} catch (e) {
+			console.error("Failed to save to localStorage:", e);
+		}
 	}, [rents])
 
 	return (

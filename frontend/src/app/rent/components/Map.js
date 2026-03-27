@@ -11,6 +11,8 @@ export default function Map({ time, setRents, rents, isDayRent }) {
 	useEffect(() => {
 		fetchPlacesData(time, isDayRent).then((res) => {
 			setPlaces(res.items);
+		}).catch((err) => {
+			alert("Error fetching places: " + err.message);
 		});
 		setMapSize(window.innerWidth > 1024 ? 1024 : window.innerWidth);
 	}, [time, isDayRent]);
@@ -65,7 +67,11 @@ export default function Map({ time, setRents, rents, isDayRent }) {
 			: [...rents, newRent];
 
 		setRents(newRents);
-		localStorage.setItem("cart", JSON.stringify({ items: newRents }));
+		try {
+			localStorage.setItem("cart", JSON.stringify({ items: newRents }));
+		} catch (e) {
+			console.error("LocalStorage error:", e);
+		}
 
 		if (!existingCopy) {
 			setNotification("Додано у кошик");

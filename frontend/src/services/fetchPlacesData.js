@@ -14,9 +14,6 @@ export const fetchPlacesData = async (time, isDayRent) => {
 			params: {
 				time,
 				isDayRent
-			},
-			headers: {
-				"ngrok-skip-browser-warning": "69420",
 			}
 		});
 		return res.data; // Return the prices for the caller to handle
