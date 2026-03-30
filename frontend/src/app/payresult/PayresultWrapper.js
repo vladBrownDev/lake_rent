@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from "react";
-import axios from "axios";
 import styles from "./page.module.css";
 
 export default function PayresultWrapper() {
@@ -13,14 +12,14 @@ export default function PayresultWrapper() {
 
 		const url = process.env.NEXT_PUBLIC_BACKEND_HOST + `/api/payment/getPaymentInfo`;
 
-		axios
-			.get(url, {
-				params: { orderId } ,
-				headers: {
-					"ngrok-skip-browser-warning": "69420",
-				}
-			})
-			.then((response) => setStatus(response.data.status))
+		const params = new URLSearchParams({ orderId });
+		fetch(`${url}?${params.toString()}`, {
+			headers: {
+				"ngrok-skip-browser-warning": "69420",
+			}
+		})
+			.then((response) => response.json())
+			.then((data) => setStatus(data.status))
 			.catch(() => setStatus("failed"));
 	}, []);
 

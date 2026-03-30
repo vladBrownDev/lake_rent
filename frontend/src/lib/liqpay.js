@@ -22,7 +22,6 @@
  *
  */
 
-const axios = require('axios');
 const crypto = require('crypto');
 
 /**
@@ -64,14 +63,17 @@ module.exports = function LiqPay(public_key, private_key) {
 		dataToSend.append('signature', signature);
 
 		try {
-			const response = await axios.post(this.host + path, dataToSend, {
+			const response = await fetch(this.host + path, {
+				method: "POST",
+				body: dataToSend,
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded'
 				}
 			});
 
 			if (response.status === 200) {
-				return response.data;
+				const data = await response.json();
+				return data;
 			} else {
 				throw new Error(`Request failed with status code: ${response.status}`);
 			}

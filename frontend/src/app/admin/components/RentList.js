@@ -4,7 +4,6 @@ import 'react-tabulator/lib/css/tabulator_simple.css';     // full Tabulator the
 import { useEffect, useState, useRef } from "react";
 import { ReactTabulator } from 'react-tabulator';
 import styles from "./RentList.module.css";
-import axios from "axios";
 
 export default function RentList() {
 	const [rents, setRents] = useState([]);
@@ -13,11 +12,12 @@ export default function RentList() {
 	useEffect(() => {
 		const fetchRents = async () => {
 			try {
-				const res = await axios.get(
+				const res = await fetch(
 					`${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/rents/getRents`,
 					{ headers: { "ngrok-skip-browser-warning": "69420" } }
 				);
-				setRents(res.data || []);
+				const data = await res.json();
+				setRents(data || []);
 			} catch (err) {
 				console.error("Failed to fetch rents", err);
 			}

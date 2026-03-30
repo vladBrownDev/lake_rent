@@ -1,5 +1,4 @@
 // src/services/placeService.js
-import axios from "axios";
 
 /**
  * Fetch prices from the API based on time and rental type.
@@ -10,13 +9,10 @@ import axios from "axios";
  */
 export const fetchPlacesData = async (time, isDayRent) => {
 	try {
-		const res = await axios.get(process.env.NEXT_PUBLIC_BACKEND_HOST + "/api/places/getPlaces", {
-			params: {
-				time,
-				isDayRent
-			}
-		});
-		return res.data; // Return the prices for the caller to handle
+		const params = new URLSearchParams({ time, isDayRent });
+		const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/places/getPlaces?${params.toString()}`);
+		const data = await res.json();
+		return data; // Return the prices for the caller to handle
 	} catch (err) {
 		console.error("Error fetching places:", err);
 		throw err; // Allow the caller to handle the error

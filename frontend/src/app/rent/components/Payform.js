@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import styles from "./Payform.module.css";
 
 export default function Payform({ rents, setRents }) {
@@ -80,15 +79,19 @@ export default function Payform({ rents, setRents }) {
 	function handleUnpaid() {
 		const orderId = `${Math.floor(Math.random() * 10000)}_${Date.now()}`;
 
-		axios.post(`${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/payment/unpaidRent`, {
-			rentItems: rents.map(rent => {
-				rent.phone = phone;
-				rent.name = name;
-				rent.payType = payType;
-				rent.paidamount = calcPaidAmount(amount);
-				return rent;
-			}),
-			orderId
+		fetch(`${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/payment/unpaidRent`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				rentItems: rents.map(rent => {
+					rent.phone = phone;
+					rent.name = name;
+					rent.payType = payType;
+					rent.paidamount = calcPaidAmount(amount);
+					return rent;
+				}),
+				orderId
+			})
 		});
 
 		localStorage.removeItem('cart');

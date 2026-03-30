@@ -4,7 +4,6 @@ import {useEffect, useState} from "react";
 import Image from "next/image";
 import styles from "./AdminMap.module.css";
 import {fetchPlacesData} from "@/services/fetchPlacesData";
-import axios from "axios";
 
 export default function AdminMap({action, type, items, setItems}) {
 	const [dragId, setDragId] = useState(null);
