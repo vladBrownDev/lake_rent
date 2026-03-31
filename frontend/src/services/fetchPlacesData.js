@@ -10,7 +10,9 @@
 export const fetchPlacesData = async (time, isDayRent) => {
 	try {
 		const params = new URLSearchParams({ time, isDayRent });
-		const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/places/getPlaces?${params.toString()}`);
+		const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/places/getPlaces?${params.toString()}`, {
+			cache: 'no-cache'
+		});
 		const data = await res.json();
 		return data; // Return the prices for the caller to handle
 	} catch (err) {

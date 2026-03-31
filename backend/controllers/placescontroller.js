@@ -2,14 +2,15 @@ const db = require('../db'); // e.g., MySQL or PostgreSQL connection
 
 exports.getPlaces = async (req, res) => {
 	const { time, isDayRent } = req.query;
-	const [day, month, year] = time.split('.');
+	const isDayRentBool = isDayRent === 'true';
+	const [day, month, year] = time.split('.').map(Number);
 
-	const timeStart = Math.floor(new Date(year, month - 1, day, isDayRent ? 6 : 14).getTime() / 1000);
+	const timeStart = Math.floor(new Date(year, month - 1, day, isDayRentBool ? 6 : 14).getTime() / 1000);
 	const timeEnd = Math.floor(
 		new Date(
 			year,
-			month - 1, isDayRent ? day : day + 1,
-			isDayRent ? 18 : 14
+			month - 1, isDayRentBool ? day : day + 1,
+			isDayRentBool ? 18 : 12
 		).getTime() / 1000);
 
 	let [rows] = await db.query('SELECT * FROM lake_places');

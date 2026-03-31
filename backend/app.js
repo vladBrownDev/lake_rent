@@ -8,10 +8,17 @@ require('dotenv').config(); // load env variables
 
 const app = express();
 
+const whitelist = [process.env.SITE_DOMAIN, process.env.SITE_DOMAIN?.replace('://', '://www.')];
 app.use(
   cors({
-    origin: process.env.SITE_DOMAIN,
-    credentials: true, // if you send cookies/auth headers
+    origin: function (origin, callback) {
+      if (!origin || whitelist.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
   })
 );
 
