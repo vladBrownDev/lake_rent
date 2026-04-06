@@ -2,17 +2,20 @@ const db = require('../db'); // e.g., MySQL or PostgreSQL connection
 
 exports.getPlaces = async (req, res) => {
 	const { time, isDayRent } = req.query;
-	const isDayRentBool = isDayRent === 'true';
+	if (!time) {
+		return res.status(400).json({ error: 'Time is required' });
+	}
+
+	const isDay = String(isDayRent) === 'true';
 	const [day, month, year] = time.split('.').map(Number);
 
-	const timeStart = Math.floor(new Date(year, month - 1, day, isDayRentBool ? 6 : 14).getTime() / 1000);
+	const timeStart = Math.floor(new Date(year, month - 1, day, isDay ? 6 : 14).getTime() / 1000);
 	const timeEnd = Math.floor(
 		new Date(
 			year,
-			month - 1, isDayRentBool ? day : day + 1,
-			isDayRentBool ? 18 : 12
+			month - 1, isDay ? day : day + 1,
+			isDay ? 18 : 12
 		).getTime() / 1000);
-
 	let [rows] = await db.query('SELECT * FROM lake_places');
 	let [prices] = await db.query('SELECT * FROM lake_prices');
 	let [conflictingRents] = await db.query(

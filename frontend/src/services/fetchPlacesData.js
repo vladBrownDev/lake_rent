@@ -9,11 +9,26 @@
  */
 export const fetchPlacesData = async (time, isDayRent) => {
 	try {
+		const host = process.env.NEXT_PUBLIC_BACKEND_HOST;
+		if (!host) {
+			throw new Error("NEXT_PUBLIC_BACKEND_HOST is not defined in environment variables");
+		}
 		const params = new URLSearchParams({ time, isDayRent });
-		const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/places/getPlaces?${params.toString()}`, {
-			cache: 'no-cache'
+		const url = `${host}/api/places/getPlaces?${params.toString()}`;
+		console.log("Fetching places from:", url);
+
+		const res = await fetch(url, {
+		        method: "GET",
+		        cache: 'no-cache',
+		        headers: {
+		                "Accept": "application/json"
+		        }
 		});
-		const data = await res.json();
+
+		if (!res.ok) {
+		        const errorText = await res.text();
+		        throw new Error(`HTTP Error: ${res.status} - ${errorText}`);
+		}		const data = await res.json();
 		return data; // Return the prices for the caller to handle
 	} catch (err) {
 		console.error("Error fetching places:", err);

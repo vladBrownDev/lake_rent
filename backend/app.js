@@ -8,17 +8,26 @@ require('dotenv').config(); // load env variables
 
 const app = express();
 
-const whitelist = [process.env.SITE_DOMAIN, process.env.SITE_DOMAIN?.replace('://', '://www.')];
+app.set('trust proxy', 1); // Trust first proxy (Nginx)
+
+const allowedOrigins = [
+  process.env.SITE_DOMAIN,
+  process.env.SITE_DOMAIN?.replace('://', '://www.')
+].filter(Boolean);
+
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || whitelist.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
+      // allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg = 'The CORS policy for this site does not ' +
+                  'allow access from the specified Origin.';
+        return callback(new Error(msg), false);
       }
+      return callback(null, true);
     },
-    credentials: true,
+    credentials: true, // if you send cookies/auth headers
   })
 );
 
