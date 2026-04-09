@@ -174,6 +174,9 @@ export default function Home() {
           <p>
             📧 <b>Електронна пошта:</b> ozeroberdykhiv@gmail.com
           </p>
+          <p>
+            📍 <b>Юридична адреса: </b>Львівська обл , Яворівський р-н ,с. Бердихів вул. Промислова 2
+          </p>
           <div className={styles.socialMedia}>
             <h3>Ми в соцмережах:</h3>
             <div className={styles.socialIcons}>
